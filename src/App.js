@@ -1,23 +1,30 @@
-import logo from './logo.svg';
+import { useState, useReducer } from 'react';
 import './App.css';
+import Child from './Child';
+import Child2 from './Child2';
+import Label from './Label';
 
 function App() {
+  console.log('App called');
+  const [useStateNumber, setUseStateNumber] = useState(0);
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'increment':
+        return state + 1;
+      default:
+        throw new Error();
+    }
+  }
+  const [useReducerNumber, dispatch] = useReducer(reducer, 0);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>useState</h1>
+      <Label number={useStateNumber} />
+      <Child onClick={setUseStateNumber} />
+      <hr />
+      <h1>useReducer</h1>
+      <Label number={useReducerNumber} />
+      <Child2 dispatch={dispatch} />
     </div>
   );
 }
